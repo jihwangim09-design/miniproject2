@@ -93,13 +93,13 @@ public class EquipmentDAO extends BaseDAO {
         return list;
     }
 
-        // 5. 대여가능 장비 조회 (대여 조회)
+    // 5. 대여가능 장비 조회 (대여 조회)
     public ArrayList<EquipmentDTO> e_available() {
             ArrayList<EquipmentDTO> list = new ArrayList<>(); 
             try {String sql = "SELECT * FROM equipment WHERE e_status = '대여가능'";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery(); {
-            while (rs.next()) {
+            while (rs.next()) {     
                 EquipmentDTO dto = new EquipmentDTO(
                     rs.getInt("e_no"),
                     rs.getString("e_name"),

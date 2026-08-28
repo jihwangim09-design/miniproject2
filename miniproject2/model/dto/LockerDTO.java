@@ -1,7 +1,6 @@
 package model.dto;
 
 public class LockerDTO {
-    // 1. 필드 선언
     private int l_No;          
     private String l_Location;   
     private String l_Status;      

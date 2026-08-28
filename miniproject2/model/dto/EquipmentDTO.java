@@ -1,7 +1,6 @@
 package model.dto;
 
 public class EquipmentDTO {
-    // 1. 필드 선언
     private int e_No;
     private String e_Name;
     private String e_Category;
