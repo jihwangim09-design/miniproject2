@@ -39,6 +39,13 @@ public class StudentController {
         return equipmentDAO.e_available();
     }
 
+    // 장비 상태 변경
+    public boolean e_statusupdate(int e_No, String e_Status){
+
+        return equipmentDAO.e_statusupdate(e_No, e_Status);
+    }
+
+
 
     // 보관함 조회
 
@@ -51,7 +58,7 @@ public class StudentController {
 public EquipmentDTO l_equipmentfind(int l_No) {
     return lockerDAO.l_equipmentfind(l_No);
 }
-
+//////////////////////////////////////////////////////////////////////////////////
     // 대여&반납
     // [1] 유효성 검사 조회
     public boolean rentalNoCheck(int r_no){
@@ -72,6 +79,14 @@ public EquipmentDTO l_equipmentfind(int l_No) {
         ArrayList<RentalDTO> result = rd.uRentListPrint(u_no);
         return result;
     }
+
+/////////////////////////////////////////////////////////////
+
+
+
+
+
+
     public boolean reportAdd(ReportDTO reportDTO) {
     return reportDAO.report_add(reportDTO);
     }
