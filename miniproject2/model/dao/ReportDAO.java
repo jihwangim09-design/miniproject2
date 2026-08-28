@@ -17,7 +17,7 @@ public class ReportDAO extends BaseDAO{
     public boolean report_add( ReportDTO reportDTO ){
         try{
             // 1.1 SQL 작성 , 값에 와일드카드(?) 이용한 매개변수 대입
-            String sql = "insert into report(r_no, report_type, description) values( ? , ? , ? )";
+            String sql = "insert into Report(r_no, report_type, description) values( ? , ? , ? )";
             // 1.2 연동된 데이터베이스에 SQL 기재, 예외 필수
             PreparedStatement ps = conn.prepareStatement(sql); // conn 멤버변수는 BaseDAO에게 물려받음.
             // 1.3 기재된 SQL 문법내 ?(와일드카드) 매개변수 값 대입, ps.set타입( ? 순서변호, 값 );
@@ -37,10 +37,10 @@ public class ReportDAO extends BaseDAO{
     public ArrayList<ReportDTO> report_findAll( ){
         ArrayList<ReportDTO> list = new ArrayList<>(); // 2.7 레코드 정보들을 담을 리스트
         try {
-            String sql = "select report.report_id, report.r_no, report.report_type, "
-        + "report.description, rental.r_return_date, report.status "
-        + "from report join rental "
-        + "on report.r_no = rental.r_no";   // 2.1 SQL 작성한다
+            String sql = "select Report.report_id, Report.r_no, Report.report_type, "
+        + "Report.description, Rental.r_return_date, Report.status "
+        + "from Report join Rental "
+        + "on Report.r_no = Rental.r_no";   // 2.1 SQL 작성한다
             PreparedStatement ps = conn.prepareStatement( sql ); // 2.2 SQL 기재
             ResultSet rs = ps.executeQuery(); // 2.3 기재된 SQL 실행
             // 2.4 SQL 결과
@@ -66,11 +66,11 @@ public class ReportDAO extends BaseDAO{
     public ReportDTO report_find(int reportId) {
 
     try {
-        String sql = "select report.report_id, report.r_no, report.report_type, "
-                + "report.description, rental.r_return_date, report.status "
-                + "from report join rental "
-                + "on report.r_no = rental.r_no "
-                + "where report.report_id = ?";
+        String sql = "select Report.report_id, Report.r_no, Report.report_type, "
+                + "Report.description, Rental.r_return_date, Report.status "
+                + "from Report join Rental "
+                + "on Report.r_no = Rental.r_no "
+                + "where Report.report_id = ?";
 
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setInt(1, reportId);
@@ -99,11 +99,11 @@ public class ReportDAO extends BaseDAO{
         ArrayList<ReportDTO> list = new ArrayList<>();
 
     try {
-        String sql = "select report.report_id, report.r_no, report.report_type, "
-                + "report.description, rental.r_return_date, report.status "
-                + "from report join rental "
-                + "on report.r_no = rental.r_no "
-                + "where report.report_type = ?";
+        String sql = "select Report.report_id, Report.r_no, Report.report_type, "
+                + "Report.description, Rental.r_return_date, Report.status "
+                + "from Report join Rental "
+                + "on Report.r_no = Rental.r_no "
+                + "where Report.report_type = ?";
 
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1, reportType);
@@ -133,11 +133,11 @@ public class ReportDAO extends BaseDAO{
         ArrayList<ReportDTO> list = new ArrayList<>();
 
     try {
-        String sql = "select report.report_id, report.r_no, report.report_type, "
-                + "report.description, rental.r_return_date, report.status "
-                + "from report join rental "
-                + "on report.r_no = rental.r_no "
-                + "where report.status = ?";
+        String sql = "select Report.report_id, Report.r_no, Report.report_type, "
+                + "Report.description, Rental.r_return_date, Report.status "
+                + "from Report join Rental "
+                + "on Report.r_no = Rental.r_no "
+                + "where Report.status = ?";
 
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setString(1, status);
@@ -165,7 +165,7 @@ public class ReportDAO extends BaseDAO{
     // [6] 신고 처리상태 변경
     public boolean report_statusUpdate(int reportId, String status) {
     try {
-        String sql = "update report set status = ? where report_id = ?";
+        String sql = "update Report set status = ? where report_id = ?";
 
         PreparedStatement ps = conn.prepareStatement(sql);
         
@@ -185,7 +185,7 @@ public class ReportDAO extends BaseDAO{
 
     try {
         String sql = "select u_no, r_date, r_return_date "
-                + "from rental "
+                + "from Rental "
                 + "where e_no = ? "
                 + "order by r_date desc "
                 + "limit 1";

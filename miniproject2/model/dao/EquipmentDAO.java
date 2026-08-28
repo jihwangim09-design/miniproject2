@@ -131,7 +131,7 @@ public class EquipmentDAO extends BaseDAO {
 
     // 7. 장비 정보 수정
     public boolean e_update(EquipmentDTO equipmentDTO) {
-        String sql = "UPDATE EquipmentSET e_name = ?,e_category = ?,e_status = ?,l_no = ?WHERE e_no = ?";
+        String sql = "UPDATE Equipment SET e_name = ?, e_category = ?, e_status = ?, l_no = ? WHERE e_no = ?";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, equipmentDTO.getE_Name());
             pstmt.setString(2, equipmentDTO.getE_Category());
@@ -189,9 +189,3 @@ public class EquipmentDAO extends BaseDAO {
     }
 
 } // class end
-
-
-
-
-
-

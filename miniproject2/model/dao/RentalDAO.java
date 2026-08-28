@@ -17,7 +17,7 @@ public class RentalDAO extends BaseDAO {
     // [1] 대여번호 유효성 검사
     public boolean rentalNoCheck(int r_no) {
         boolean result = false;
-        String sql = "SELECT r_no FROM rental WHERE r_no = ?";
+        String sql = "SELECT r_no FROM Rental WHERE r_no = ?";
         ResultSet rs = null;
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -67,7 +67,7 @@ public class RentalDAO extends BaseDAO {
     public boolean rentalAdd(RentalDTO rentalDTO) {
 
         // 1. 장비 대여 가능 여부 확인
-        String checkSql = "SELECT e_status FROM equipment WHERE e_no = ?";
+        String checkSql = "SELECT e_status FROM Equipment WHERE e_no = ?";
 
         try (PreparedStatement checkPs = conn.prepareStatement(checkSql)) {
             checkPs.setInt(1, rentalDTO.getE_no());
@@ -94,7 +94,7 @@ public class RentalDAO extends BaseDAO {
         }
 
         // 2. 대여 가능한 경우 rental 등록
-        String sql = "INSERT INTO rental (u_no, e_no) VALUES (?, ?)";
+        String sql = "INSERT INTO Rental (u_no, e_no) VALUES (?, ?)";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, rentalDTO.getU_no());
@@ -104,7 +104,7 @@ public class RentalDAO extends BaseDAO {
             if (result == 1) {
                 // 3. 대여 성공시 장비 상태를 대여중으로 변경
                 String updateSql =
-                        "UPDATE equipment SET e_status = '대여중' WHERE e_no = ?";
+                        "UPDATE Equipment SET e_status = '대여중' WHERE e_no = ?";
                 try (PreparedStatement updatePs = conn.prepareStatement(updateSql)) {
                     updatePs.setInt(1, rentalDTO.getE_no());
                     updatePs.executeUpdate();
@@ -121,7 +121,7 @@ public class RentalDAO extends BaseDAO {
     public boolean returnUpdate(RentalDTO rentalDTO){
 
         String sql =
-            "UPDATE rental " +
+            "UPDATE Rental " +
             "SET r_condition = ?, " +
             "    r_status = '반납완료', " +
             "    r_return_date = NOW() " +
@@ -152,7 +152,7 @@ public class RentalDAO extends BaseDAO {
 
         String sql =
             "SELECT r_no, e_no, r_date, r_due_date, r_return_date, r_status, r_condition " +
-            "FROM rental " +
+            "FROM Rental " +
             "WHERE u_no = ? AND r_status = '대여중'";
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
