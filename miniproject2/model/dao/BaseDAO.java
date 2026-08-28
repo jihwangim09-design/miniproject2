@@ -5,9 +5,9 @@ import java.sql.DriverManager;
 
 // 연동 정보
 public  class BaseDAO {
-    String URL = "jdbc:mysql://localhost:3306/SmartLocker";
-    String USER = "root";
-    String PASSWORD = "1234";
+    String URL = "jdbc:mysql://mysql-22dd81c8-zqweqw.e.aivencloud.com:12530/SmartLocker?ssl-mode=REQUIRED";
+    String USER = "avnadmin";
+    String PASSWORD = "AVNS_f8R0PI_Ygv3b2KgaCLu";
     // 연동 인터페이스
     protected Connection conn;
     // 연동 메소드

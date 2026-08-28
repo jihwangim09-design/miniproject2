@@ -12,7 +12,7 @@ public class EquipmentDAO extends BaseDAO {
 
         // 1. 장비 유효성 검사
     public boolean e_NoCheck(int e_No) {
-            String sql = "SELECT e_no FROM equipment WHERE e_no = ?";
+            String sql = "SELECT e_no FROM Equipment WHERE e_no = ?";
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, e_No);
             try (ResultSet rs = pstmt.executeQuery()) {
@@ -29,7 +29,7 @@ public class EquipmentDAO extends BaseDAO {
         // 2. 전체 장비 조회 (전체 장비 목록 보기)
     public ArrayList<Object> e_findAll() {
         ArrayList<Object> list = new ArrayList<>();
-                try {String sql = "SELECT * FROM equipment";
+                try {String sql = "SELECT * FROM Equipment";
                     PreparedStatement ps = conn.prepareStatement(sql);
                     ResultSet rs = ps.executeQuery();
                     while(rs.next()) {
@@ -49,7 +49,7 @@ public class EquipmentDAO extends BaseDAO {
 
      // 3. 장비 상세 조회 (장비 검색)
     public EquipmentDTO e_find(int e_No) {
-            try {String sql = "SELECT * FROM equipment WHERE e_no = ?"; 
+            try {String sql = "SELECT * FROM Equipment WHERE e_no = ?"; 
                 PreparedStatement pstmt = conn.prepareStatement(sql); {
                 pstmt.setInt(1, e_No);
                 try (ResultSet rs = pstmt.executeQuery()) {
@@ -71,7 +71,7 @@ public class EquipmentDAO extends BaseDAO {
     // 4. 장비 카테고리별 조회
     public ArrayList<EquipmentDTO> e_categoryfind(String e_Category) {  
             ArrayList<EquipmentDTO> list = new ArrayList<>();
-            String sql = "SELECT * FROM equipment WHERE e_category = ?";
+            String sql = "SELECT * FROM Equipment WHERE e_category = ?";
             try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setString(1, e_Category);
                 try (ResultSet rs = pstmt.executeQuery()) {
@@ -96,7 +96,7 @@ public class EquipmentDAO extends BaseDAO {
         // 5. 대여가능 장비 조회 (대여 조회)
     public ArrayList<EquipmentDTO> e_available() {
             ArrayList<EquipmentDTO> list = new ArrayList<>(); 
-            try {String sql = "SELECT * FROM equipment WHERE e_status = '대여가능'";
+            try {String sql = "SELECT * FROM Equipment WHERE e_status = '대여가능'";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery(); {
             while (rs.next()) {
@@ -116,7 +116,7 @@ public class EquipmentDAO extends BaseDAO {
 
     // 6. 장비 등록
     public boolean e_add(EquipmentDTO equipmentDTO) {
-        String sql = "INSERT INTO equipment (e_name, e_category, e_status, l_no) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO Equipment (e_name, e_category, e_status, l_no) VALUES (?, ?, ?, ?)";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, equipmentDTO.getE_Name());
             pstmt.setString(2, equipmentDTO.getE_Category());
@@ -131,7 +131,7 @@ public class EquipmentDAO extends BaseDAO {
 
     // 7. 장비 정보 수정
     public boolean e_update(EquipmentDTO equipmentDTO) {
-        String sql = "UPDATE equipmentSET e_name = ?,e_category = ?,e_status = ?,l_no = ?WHERE e_no = ?";
+        String sql = "UPDATE EquipmentSET e_name = ?,e_category = ?,e_status = ?,l_no = ?WHERE e_no = ?";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, equipmentDTO.getE_Name());
             pstmt.setString(2, equipmentDTO.getE_Category());
@@ -147,7 +147,7 @@ public class EquipmentDAO extends BaseDAO {
 
     // 8. 장비 상태 변경
     public boolean e_statusupdate(int e_No, String e_Status) {
-        String sql ="UPDATE equipment SET e_status = ? WHERE e_no = ?";
+        String sql ="UPDATE Equipment SET e_status = ? WHERE e_no = ?";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, e_Status);
             pstmt.setInt(2, e_No);
@@ -161,7 +161,7 @@ public class EquipmentDAO extends BaseDAO {
 
      // 9. 장비 보관함 변경
     public boolean e_lockerupdate(int e_No, int l_No) {
-        String sql = "UPDATE equipment SET l_no = ? WHERE e_no = ?";
+        String sql = "UPDATE Equipment SET l_no = ? WHERE e_no = ?";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, l_No);
             pstmt.setInt(2, e_No);
@@ -177,7 +177,7 @@ public class EquipmentDAO extends BaseDAO {
 
     // 10. 장비 삭제
     public boolean e_delete(int e_No) {
-        String sql = "DELETE FROM equipment WHERE e_no = ?";
+        String sql = "DELETE FROM Equipment WHERE e_no = ?";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, e_No);
             int result = pstmt.executeUpdate();
