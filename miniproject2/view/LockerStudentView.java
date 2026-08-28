@@ -40,8 +40,6 @@ public class LockerStudentView {
         l_findAll();
 
     }
-
-
     // 전체 보관함 조회
     public void l_findAll() {
 
