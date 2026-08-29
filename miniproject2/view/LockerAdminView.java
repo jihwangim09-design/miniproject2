@@ -90,7 +90,7 @@ public class LockerAdminView {
     // ==============================
     public void l_findAll() {
 
-        ArrayList<Object> list
+        ArrayList<LockerDTO> list
                 = adminController.l_findAll();
 
         System.out.println();

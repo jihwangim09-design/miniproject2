@@ -23,7 +23,7 @@ public class StudentController {
     // 장비 조회
 
     // 1. 전체 장비 조회
-    public ArrayList<Object> e_findAll() {
+    public ArrayList<EquipmentDTO> e_findAll() {
         return equipmentDAO.e_findAll();
     }
     // 2. 장비 상세 조회
@@ -50,7 +50,7 @@ public class StudentController {
     // 보관함 조회
 
     // 1. 전체 보관함 조회
-    public ArrayList<Object> l_findAll() {
+    public ArrayList<LockerDTO> l_findAll() {
         return lockerDAO.l_findAll();
     }
 

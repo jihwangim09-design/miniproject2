@@ -79,7 +79,7 @@ public class EquipmentStudentView {
     // ==================================================
     public void e_findAll() {
 
-        ArrayList<Object> list
+        ArrayList<EquipmentDTO> list
                 = studentController.e_findAll();
 
 

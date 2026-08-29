@@ -1,20 +1,28 @@
 package model.dto;
 
 public class LockerDTO {
-    // 1. 필드 선언
-    private int l_No;          
-    private String l_Location;   
-    private String l_Status;      
 
+    // 1. 필드
+    private int l_No;
+    private String l_Location;
+    private String l_Status;
+
+
+    // 2. 기본 생성자
     public LockerDTO() {}
-    // 3. 전체 매개변수 생성자 (조회 시 사용)
+
+
+    // 3. 전체 매개변수 생성자
+    // 조회 / 수정 / 보관함 번호 직접 등록 시 사용
     public LockerDTO(int l_No, String l_Location, String l_Status) {
         this.l_No = l_No;
         this.l_Location = l_Location;
         this.l_Status = l_Status;
     }
 
-    // 4. 신규 등록용 생성자 
+
+    // 4. 신규 등록용 생성자
+    // l_No는 AUTO_INCREMENT로 자동 생성
     public LockerDTO(String l_Location, String l_Status) {
         this.l_Location = l_Location;
         this.l_Status = l_Status;
@@ -55,4 +63,4 @@ public class LockerDTO {
                 + ", l_Status=" + l_Status + "]";
     }
 
-} // class end
+}

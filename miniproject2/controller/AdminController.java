@@ -33,7 +33,7 @@ public class AdminController {
     }
 
     // 2. 전체 장비 조회
-    public ArrayList<Object> e_findAll() {
+    public ArrayList<EquipmentDTO> e_findAll() {
         return equipmentDAO.e_findAll();
     }
 
@@ -91,7 +91,7 @@ public class AdminController {
     }
 
     // 3. 전체 보관함 조회
-    public ArrayList<Object> l_findAll() {
+    public ArrayList<LockerDTO> l_findAll() {
         return lockerDAO.l_findAll();
     }
 
@@ -119,6 +119,21 @@ public class AdminController {
     public EquipmentDTO l_equipmentfind(int l_No) {
         return lockerDAO.l_equipmentfind(l_No);
     }
+
+        // 장비 등록 시 보관함 중복 검사
+    public boolean lockerUseCheck(int l_No) {
+        return equipmentDAO.lockerUseCheck(l_No);
+    }
+
+    // 장비 수정 / 보관함 변경 시 보관함 중복 검사
+    public boolean lockerUseCheck(int l_No, int e_No) {
+        return equipmentDAO.lockerUseCheck(l_No, e_No);
+    }
+
+    // 보관함 번호 지정 등록
+public boolean l_addWithNo(LockerDTO lockerDTO) {
+    return lockerDAO.l_addWithNo(lockerDTO);
+}
 
     // ===================== 신고 =====================
 

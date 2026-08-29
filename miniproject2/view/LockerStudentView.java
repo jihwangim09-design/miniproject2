@@ -45,7 +45,7 @@ public class LockerStudentView {
     // 전체 보관함 조회
     public void l_findAll() {
 
-        ArrayList<Object> list
+        ArrayList<LockerDTO> list
                 = studentController.l_findAll();
 
         System.out.println();
