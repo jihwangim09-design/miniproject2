@@ -65,7 +65,7 @@ public class StudentView {
     // 다운캐스팅
     // 1. 전체 장비 조회
     public void e_findAll() {
-        ArrayList<Object> list = sc.e_findAll();
+        ArrayList<EquipmentDTO> list = sc.e_findAll();
 
         System.out.println();
         System.out.println("===== 전체 장비 조회 =====");
@@ -131,29 +131,38 @@ public class StudentView {
         ArrayList<RentalDTO> userResult = sc.uRentListPrint(uNo);
 
         System.out.println();
-        System.out.println("===== 내 대여 현황 =====");
+        System.out.println("====================================================================================================");
+        System.out.println("                                          내 대여 현황");
+        System.out.println("====================================================================================================");
         System.out.println("회원번호 : " + uNo);
+        System.out.println("----------------------------------------------------------------------------------------------------");
 
         if(userResult.isEmpty()){
             System.out.println("대여 내역이 없습니다.");
         }
         else{
-            System.out.printf("%-8s %-8s %-20s %-20s \n",
-                    "대여번호",
-                    "장비번호",
-                    "대여일",
-                    "반납예정일");
+
+            System.out.println("대여번호 | 장비번호 | 대여일 | 반납예정일 | 반납일 | 대여상태 | 장비상태");
+            System.out.println("----------------------------------------------------------------------------------------------------");
+
             for(RentalDTO dto : userResult){
-                System.out.printf("%-8d %-8d %-20s %-20s \n",
-                    dto.getR_no(),
-                    dto.getE_no(),
-                    dto.getR_date(), 
-                    dto.getR_due_date(), 
-                    dto.getR_return_date()
-                    
-                );
+
+                String returnDate = dto.getR_return_date() == null ? "-" : dto.getR_return_date();
+                String status = dto.getR_status() == null ? "-" : dto.getR_status();
+                String condition = dto.getR_condition() == null ? "-" : dto.getR_condition();
+
+                System.out.printf("%d | %d | %s | %s | %s | %s | %s%n",
+                        dto.getR_no(),
+                        dto.getE_no(),
+                        dto.getR_date(),
+                        dto.getR_due_date(),
+                        returnDate,
+                        status,
+                        condition);
             }
         }
+
+        System.out.println("====================================================================================================");
     }
 
     // [5] 장비 반납 신청
@@ -241,38 +250,59 @@ public class StudentView {
         // 2. 이상 있음
         // =====================================================
         else if(상태선택 == 2){
+
             System.out.println();
             System.out.println("[안내] 장비에 이상이 발견되었습니다.");
             System.out.println("[안내] 고장 / 파손 신고 화면으로 이동합니다.");
 
             // 장비 정보 조회
-            EquipmentDTO equipmentDTO =
-                    sc.e_find(selectedRental.getE_no());
-            String eName = "";
+            EquipmentDTO equipmentDTO = sc.e_find(selectedRental.getE_no());
+
+            String eName = "알 수 없는 장비";
+
             if(equipmentDTO != null){
                 eName = equipmentDTO.getE_Name();
             }
-            else{
-                eName = "알 수 없는 장비";
-            }
-            // 장비 상태를 '점검중'으로 변경
-            boolean equipmentResult =
-                    sc.e_statusupdate(
-                            selectedRental.getE_no(),
-                            "점검중"
-                    );
-            if(!equipmentResult){
-                System.out.println();
-                System.out.println("[안내] 장비 상태 변경에 실패했습니다.");
-                System.out.println("[안내] 반납 처리를 중단합니다.");
-                return;
-            }
-            // 신고 화면 이동
-            ReportView.getInstance().reportAddView(
+
+            // 신고 화면 실행
+            // 신고 성공 → "고장" 또는 "파손" 반환
+            // 신고 취소 → null 반환
+            String reportType = ReportView.getInstance().reportAddView(
                     selectedRental.getR_no(),
                     selectedRental.getE_no(),
                     eName
             );
+
+            // 신고 취소
+            if(reportType == null){
+                System.out.println("[안내] 신고 및 반납을 취소합니다.");
+                return;
+            }
+
+            // 대여 반납 처리
+            // Rental.r_condition = "이상있음"
+            RentalDTO rentalDTO = new RentalDTO(대여번호, "이상있음");
+
+            boolean rentalResult = sc.returnUpdate(rentalDTO);
+
+            if(!rentalResult){
+                System.out.println("[안내] 반납 처리에 실패했습니다.");
+                return;
+            }
+
+            // 이상 장비는 점검필요 상태로 변경
+            boolean equipmentResult = sc.e_statusupdate(selectedRental.getE_no(), "점검필요");
+
+            if(!equipmentResult){
+                System.out.println("[안내] 반납은 완료되었지만 장비 상태 변경에 실패했습니다.");
+                return;
+            }
+
+            System.out.println();
+            System.out.println("[안내] 신고 및 반납이 완료되었습니다.");
+            System.out.println("[안내] 신고유형 : " + reportType);
+            System.out.println("[안내] 장비번호 : " + selectedRental.getE_no());
+            System.out.println("[안내] 장비상태 : 점검필요");
         }
         // =====================================================
         // 3. 잘못된 입력

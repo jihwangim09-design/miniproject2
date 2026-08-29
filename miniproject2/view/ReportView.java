@@ -85,11 +85,12 @@ public class ReportView {
     // [1] 고장 / 파손 신고 등록
     // 학생 반납 흐름에서 호출
     // =========================================================
-    public void reportAddView(int rNo, int eNo, String eName) {
+    public String reportAddView(int rNo, int eNo, String eName) {
 
         while(true) {
 
             try {
+
                 System.out.println("┌──────────────────────────────────────────────┐");
                 System.out.println("│               고장 / 파손 신고                │");
                 System.out.println("├──────────────────────────────────────────────┤");
@@ -104,18 +105,20 @@ public class ReportView {
 
                 int typeCh = scan.nextInt();
 
-                // nextInt() 뒤에 남은 엔터 제거
                 scan.nextLine();
 
                 String reportType = "";
 
                 if(typeCh == 1) {
+
                     reportType = "고장";
 
                 } else if(typeCh == 2) {
+
                     reportType = "파손";
 
                 } else {
+
                     System.out.println("[안내] 잘못된 번호입니다.");
                     continue;
                 }
@@ -141,22 +144,35 @@ public class ReportView {
                     boolean result = sc.reportAdd(reportDTO);
 
                     if(result) {
+
                         System.out.println("[안내] 신고가 정상적으로 등록되었습니다.");
-                        break;
+
+                        // ★ 신고 유형 반환
+                        return reportType;
 
                     } else {
+
                         System.out.println("[안내] 신고 등록에 실패했습니다.");
                     }
                 }
 
-                if(ch == 2) {
+                else if(ch == 2) {
+
                     System.out.println("[안내] 신고를 취소합니다.");
-                    break;
+
+                    // ★ 취소하면 null 반환
+                    return null;
+
+                } else {
+
+                    System.out.println("[안내] 잘못된 번호입니다.");
                 }
 
             } catch(Exception e) {
+
                 System.out.println(e);
                 scan.nextLine();
+
             }
         }
     }
