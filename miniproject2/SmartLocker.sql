@@ -2,14 +2,10 @@
 -- SmartLocker 프로젝트 DB 전체 초기화
 -- ============================================
 
-DROP DATABASE IF EXISTS SmartLocker;
-CREATE DATABASE SmartLocker CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE SmartLocker;
-
-
 -- ============================================
 -- 1. 회원 테이블
 -- ============================================
+
 
 CREATE TABLE Users (
     u_no INT AUTO_INCREMENT,
@@ -61,7 +57,7 @@ CREATE TABLE Equipment (
         ON DELETE RESTRICT,
 
     CONSTRAINT chk_equipment_status
-        CHECK (e_status IN ('대여가능', '대여중', '고장', '파손', '점검중', '수리중', '사용중지'))
+       CHECK (e_status IN ('대여가능', '대여중', '고장', '파손', '점검필요', '점검중', '수리중', '사용중지'))
 );
 
 
@@ -95,7 +91,7 @@ CREATE TABLE Rental (
         CHECK (r_status IN ('대여중', '반납완료', '연체')),
 
     CONSTRAINT chk_rental_condition
-        CHECK (r_condition IS NULL OR r_condition IN ('정상', '고장', '파손'))
+    CHECK (r_condition IS NULL OR r_condition IN ('정상', '이상있음'))
 );
 
 
