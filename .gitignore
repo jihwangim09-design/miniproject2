@@ -1,3 +1,4 @@
 **/bin/
 *.txt
 /miniproject2/model/dao/BaseDAO.java
+/miniproject2.jar
